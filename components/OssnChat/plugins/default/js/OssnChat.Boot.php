@@ -18,6 +18,7 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      https://www.opensource-socialnetwork.org/
  */
+
 $new_all    = ossn_chat()->getNewAll(array(
 		'message_from'
 ));
@@ -61,7 +62,7 @@ if($active_sessions) {
 						$status = 'ossn-chat-icon-offline';
 				}
 				$construct_active[$friend] = array(
-						'status' => $status
+						'status' => $status 
 				);
 		}
 }
@@ -100,7 +101,6 @@ echo 'var OssnChat = ';
 echo preg_replace('/[ ]{2,}/', ' ', $api);
 echo ';';
 ?>
-
 
 /**
  * Count Online friends and put then in friends list
@@ -160,12 +160,13 @@ if(OssnChat['allfriends']){
  * Check if there is new message then put them in tab
  *
  * @params OssnChat['newmessages'] Array
- */	
+ */
 if(OssnChat['newmessages']){
 $.each(OssnChat['newmessages'], function(key, data){
             if($('.ossn-chat-base').find('#ftab-i'+data['fid']).length){
                       $totalelement = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message');
                       $texa = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message').text();
+
                       if(data['total'] > 0){
                       	    $.each(data['message'], function(ikey, item){
                             	  if($('#ossn-message-item-'+item['id']).length == 0){
@@ -182,25 +183,28 @@ $.each(OssnChat['newmessages'], function(key, data){
                                Ossn.ChatMarkViewed(data['fid']);
                            }
                            if($texa != data['total']){
-	                         Ossn.ChatplaySound
-	
-				 var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
+	                            Ossn.ChatplaySound();
+
+                                var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
                                 .find('#ossnchat-ustatus-' + data['fid'])
                                 .find('.ossn-chat-inner-text').html().trim();
 
                                 $notifications =
-					Push.create("FAMBOOK - Nova Mensagem!", {
-						body:'Usuário: '+ nome,
-						icon: '../js/img/icone.png',
-						timeout: 50000,
-						onClick: function () {
-						window.focus();
-						this.close();
-                               			},
-                               		});
+                                Push.create("FAMBOOK - Nova Mensagem!", {
+                                body:'Usuário: '+ nome,
+                                icon: '../js/img/icone.png',
+                                timeout: 50000,
+                                onClick: function () {
+                                window.focus();
+                                this.close();
+                                },
+                                });
                            }
-	
-	
+
+
+/*Fim da implementação de notificação*/
+
+
                            Ossn.ChatScrollMove(data['fid']);
                            
                            //chat linefeed problem #278.
@@ -210,8 +214,8 @@ $.each(OssnChat['newmessages'], function(key, data){
                            });
 
                        }
-                 
             }
+
 });
 }
 /**
