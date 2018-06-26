@@ -9,6 +9,11 @@
  * @link      https://www.opensource-socialnetwork.org/
  */
 ?>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.5/push.min.js"></script>
+</head>
+
 <div class="message-reciever" id="ossn-message-item-<?php echo $params['id'];?>">
     <div class="user-icon">
         <img src="<?php echo $params['reciever']->iconURL()->smaller; ?>"/>
