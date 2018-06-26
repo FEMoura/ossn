@@ -182,8 +182,25 @@ $.each(OssnChat['newmessages'], function(key, data){
                                Ossn.ChatMarkViewed(data['fid']);
                            }
                            if($texa != data['total']){
-	                           Ossn.ChatplaySound();
+	                         Ossn.ChatplaySound
+	
+				 var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
+                                .find('#ossnchat-ustatus-' + data['fid'])
+                                .find('.ossn-chat-inner-text').html().trim();
+
+                                $notifications =
+					Push.create("FAMBOOK - Nova Mensagem!", {
+						body:'Usuário: '+ nome,
+						icon: '../js/img/icone.png',
+						timeout: 50000,
+						onClick: function () {
+						window.focus();
+						this.close();
+                               			},
+                               		});
                            }
+	
+	
                            Ossn.ChatScrollMove(data['fid']);
                            
                            //chat linefeed problem #278.
