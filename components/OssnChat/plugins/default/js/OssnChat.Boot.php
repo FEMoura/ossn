@@ -168,7 +168,6 @@ $.each(OssnChat['newmessages'], function(key, data){
                       $totalelement = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message');
                       $texa = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message').text();
 
-/*Inicio da Notificacao*/
 
 
                       if(data['total'] > 0){
@@ -187,12 +186,13 @@ $.each(OssnChat['newmessages'], function(key, data){
                                Ossn.ChatMarkViewed(data['fid']);
                            }
                            if($texa != data['total']){
-	                            Ossn.ChatplaySound();
-                                var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
+	                         Ossn.ChatplaySound();
+                                 var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
                                 .find('#ossnchat-ustatus-' + data['fid'])
                                 .find('.ossn-chat-inner-text').html().trim();
 
 
+/*Inicio da Notificacao*/
                                 var hidden, visibilityChange;
 
                                 if (typeof document.hidden !== "undefined") {
@@ -230,6 +230,8 @@ $.each(OssnChat['newmessages'], function(key, data){
                                 }
 
                       }
+
+/*Fim da Notificacao*/
 }
                            Ossn.ChatScrollMove(data['fid']);
                            //chat linefeed problem #278.
