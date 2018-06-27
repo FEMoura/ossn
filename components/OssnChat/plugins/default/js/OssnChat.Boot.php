@@ -55,14 +55,14 @@ if($active_sessions) {
 								);
 						}
 				}
-				
+
 				if(OssnChat::getChatUserStatus($friend, 10) == 'online') {
 						$status = 'ossn-chat-icon-online';
 				} else {
 						$status = 'ossn-chat-icon-offline';
 				}
 				$construct_active[$friend] = array(
-						'status' => $status 
+						'status' => $status
 				);
 		}
 }
@@ -94,7 +94,7 @@ $api = json_encode(array(
 		),
 		'newmessages' => $messages_combined,
 		'all_new' => $new_all
-		
+
 ));
 
 echo 'var OssnChat = ';
@@ -106,7 +106,8 @@ echo ';';
  * Count Online friends and put then in friends list
  *
  * @params OssnChat['friends'] Array
- */	
+ */
+
 $friends_online = $('.ossn-chat-online-friends-count').find('span');
 if(OssnChat['friends']['online'] > $friends_online.text() || OssnChat['friends']['online'] < $friends_online.text()){
    $('.friends-list').find('.data').html(OssnChat['friends']['data']);
@@ -117,7 +118,7 @@ $friends_online.html(OssnChat['friends']['online']);
  * Reset the user status
  *
  * @params OssnChat['active_friends'] Array
- */	
+ */
 if(OssnChat['active_friends']){
 $.each(OssnChat['active_friends'], function(key, data){
                $('#ossnchat-ustatus-'+key).attr('class', data['status']);
@@ -127,7 +128,7 @@ $.each(OssnChat['active_friends'], function(key, data){
  * Add all friends in sidebar
  *
  * @params OssnChat['active_friends'] Array
- */	
+ */
 if(OssnChat['allfriends']){
   $.each(OssnChat['allfriends'], function(key, data){
        var $item  = $(".ossn-chat-windows-long .inner").find('#friend-list-item-'+data['guid']);
@@ -135,25 +136,25 @@ if(OssnChat['allfriends']){
 			if (data['status'] == 'ossn-chat-icon-online' && $item.find('.ustatus').hasClass('ossn-chat-icon-online') == false) {
 				/* state change offline -> online: move friend to top of list */
 				$item.remove();
-				var prependata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus ossn-chat-icon-online" src="'+data['icon']+'" /></div></div></div>';    
+				var prependata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus ossn-chat-icon-online" src="'+data['icon']+'" /></div></div></div>';
 				$(".ossn-chat-windows-long .inner").prepend(prependata);
 			}
 			if (data['status'] == '0' && $item.find('.ustatus').hasClass('ossn-chat-icon-online') == true) {
 				/* state change online -> offline: move friend to bottom of list */
 				$item.remove();
-				var appendata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus" src="'+data['icon']+'" /></div></div></div>';    
+				var appendata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus" src="'+data['icon']+'" /></div></div></div>';
 				$(".ossn-chat-windows-long .inner").append(appendata);
 			}
-        } 
+        }
         if($item.length == 0){
-			var appendata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus '+data['status']+'" src="'+data['icon']+'" /></div></div></div>';    
+			var appendata = '<div data-toggle="tooltip" title="'+data['name']+'" class="friends-list-item" id="friend-list-item-'+data['guid']+'" onClick="Ossn.ChatnewTab('+data['guid']+');"><div class="friends-item-inner"><div class="icon"><img class="ustatus '+data['status']+'" src="'+data['icon']+'" /></div></div></div>';
          	$(".ossn-chat-windows-long .inner").find('.ossn-chat-none').hide();
           	$(".ossn-chat-windows-long .inner").append(appendata);
         }
   });
 	$('[data-toggle="tooltip"]').tooltip({
-		placement:'left',										  
-	});   
+		placement:'left',
+	});
 }
 
 /**
@@ -167,13 +168,16 @@ $.each(OssnChat['newmessages'], function(key, data){
                       $totalelement = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message');
                       $texa = $('#ftab-i'+data['fid']).find('.ossn-chat-new-message').text();
 
+/*Inicio da Notificacao*/
+
+
                       if(data['total'] > 0){
                       	    $.each(data['message'], function(ikey, item){
                             	  if($('#ossn-message-item-'+item['id']).length == 0){
-	 		                          $('#ftab-i'+data['fid']).find('.data').append(item['message']); 
+	 		                          $('#ftab-i'+data['fid']).find('.data').append(item['message']);
                                   }
                             })
-                           
+
                            if($('.ossn-chat-base').find('#ftab-i'+data['fid']).find('.tab-container').is(":not(:visible)")){
                                $('#ftab-i'+data['fid']).find('#ftab'+data['fid']).addClass('ossn-chat-tab-active');
                                $totalelement.html(data['total']);
@@ -184,29 +188,50 @@ $.each(OssnChat['newmessages'], function(key, data){
                            }
                            if($texa != data['total']){
 	                            Ossn.ChatplaySound();
-
                                 var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
                                 .find('#ossnchat-ustatus-' + data['fid'])
                                 .find('.ossn-chat-inner-text').html().trim();
 
-                                $notifications =
-                                Push.create("FAMBOOK - Nova Mensagem!", {
-                                body:'Usuário: '+ nome,
-                                icon: '../js/img/icone.png',
-                                timeout: 50000,
-                                onClick: function () {
-                                window.focus();
-                                this.close();
-                                },
-                                });
-                           }
+
+                                var hidden, visibilityChange;
+
+                                if (typeof document.hidden !== "undefined") {
+                                hidden = "hidden";
+                                visibilityChange = "visibilitychange";
+                                } else if (typeof document.mozHidden !== "undefined") {
+                                hidden = "mozHidden";
+                                visibilityChange = "mozvisibilitychange";
+                                } else if (typeof document.msHidden !== "undefined") {
+                                hidden = "msHidden";
+                                visibilityChange = "msvisibilitychange";
+                                } else if (typeof document.webkitHidden !== "undefined") {
+                                hidden = "webkitHidden";
+                                visibilityChange = "webkitvisibilitychange";
+                                }
+
+                                document.addEventListener(visibilityChange, notification, false);
+
+                                function notification() {
+                                var nome = $('.ossn-chat-base').find('#ftab-i'+data['fid'])
+                                .find('#ossnchat-ustatus-' + data['fid'])
+                                .find('.ossn-chat-inner-text').html().trim();
 
 
-/*Fim da implementação de notificação*/
+                                if (document.hidden) {
+                                    Push.create("FAMBOOK", {
+                                    body: "Você tem uma nova Mensagem de "+nome,
+                                    icon: 'img/logo.png',
+                                    timeout: 50000,
+                                    tag:'not'
+                                    });
 
+                                }else{
+                                 Push.close('not');
+                                }
 
+                      }
+}
                            Ossn.ChatScrollMove(data['fid']);
-                           
                            //chat linefeed problem #278.
                            // move scroll once again when div is loaded fully
                            $("#ossn-chat-messages-data-"+data['fid']).load(function() {
@@ -222,13 +247,13 @@ $.each(OssnChat['newmessages'], function(key, data){
  * Open new tab on new message
  *
  * @params OssnChat['all_new'] Array
- */	
+ */
 if(OssnChat['all_new']){
 $.each(OssnChat['all_new'], function(key, data){
-     if($(".ossn-chat-containers").children(".friend-tab-item").size() < 4){   						   
+     if($(".ossn-chat-containers").children(".friend-tab-item").size() < 4){
          var $friend = data['message_from'];
-         Ossn.ChatnewTab($friend);         
-           if(!$('#ftab-i'+$user)){   						     
+         Ossn.ChatnewTab($friend);
+           if(!$('#ftab-i'+$user)){
               Ossn.ChatplaySound();
               Ossn.ChatScrollMove(data['message_from']);
            }
